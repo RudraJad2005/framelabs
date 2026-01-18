@@ -19,6 +19,9 @@ router.get('/signup', pageController.getSignup);
 // Dashboard Pages
 router.get('/dashboard', pageController.getDashboard);
 router.get('/dashboard/tests', pageController.getTestSuites);
+router.get('/dashboard/tests/:suiteId', pageController.getTestSuiteDetail);
 router.get('/dashboard/runs', pageController.getTestRuns);
+router.get('/dashboard/benchmarks', pageController.getBenchmarks);
+router.get('/dashboard/agents', pageController.getAgents);
 
 module.exports = router;

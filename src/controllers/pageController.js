@@ -97,6 +97,21 @@ exports.getTestSuites = (req, res) => {
     });
 };
 
+exports.getTestSuiteDetail = (req, res) => {
+    // Redirect to login if not authenticated
+    if (!req.isAuthenticated || !req.isAuthenticated()) {
+        return res.redirect('/login');
+    }
+    const suiteId = req.params.suiteId;
+    res.render('pages/test-suite-detail', {
+        title: 'Test Suite Details - FrameLab',
+        page: 'test-suite-detail',
+        user: req.user,
+        isAuthenticated: true,
+        suiteId: suiteId
+    });
+};
+
 exports.getTestRuns = (req, res) => {
     // Redirect to login if not authenticated
     if (!req.isAuthenticated || !req.isAuthenticated()) {
@@ -105,6 +120,32 @@ exports.getTestRuns = (req, res) => {
     res.render('pages/test-runs', {
         title: 'Test Runs - FrameLab',
         page: 'test-runs',
+        user: req.user,
+        isAuthenticated: true
+    });
+};
+
+exports.getBenchmarks = (req, res) => {
+    // Redirect to login if not authenticated
+    if (!req.isAuthenticated || !req.isAuthenticated()) {
+        return res.redirect('/login');
+    }
+    res.render('pages/benchmarks', {
+        title: 'Benchmarks - FrameLab',
+        page: 'benchmarks',
+        user: req.user,
+        isAuthenticated: true
+    });
+};
+
+exports.getAgents = (req, res) => {
+    // Redirect to login if not authenticated
+    if (!req.isAuthenticated || !req.isAuthenticated()) {
+        return res.redirect('/login');
+    }
+    res.render('pages/agents', {
+        title: 'My Agents - FrameLab',
+        page: 'agents',
         user: req.user,
         isAuthenticated: true
     });
