@@ -1,0 +1,706 @@
+<%- include('../partials/header') %>
+
+<style>
+    /* Override body background */
+    body {
+        background: #fafafa;
+    }
+
+    /* Animated Frame Border */
+    .page-frame {
+        position: fixed;
+        inset: 16px;
+        border: 2px solid #1a1a1a;
+        pointer-events: none;
+        z-index: 9998;
+    }
+
+    .frame-corner {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border: 3px solid #2563eb;
+    }
+
+    .frame-corner.tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+    .frame-corner.tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+    .frame-corner.bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+    .frame-corner.br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+    /* Frame Labels */
+    .frame-label {
+        position: fixed;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        color: #6b7280;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        z-index: 9999;
+    }
+
+    .frame-label.top { top: 28px; left: 50%; transform: translateX(-50%); }
+    .frame-label.bottom { bottom: 28px; left: 50%; transform: translateX(-50%); }
+    .frame-label.left { top: 50%; left: 28px; transform: rotate(-90deg) translateX(-50%); transform-origin: left center; }
+    .frame-label.right { top: 50%; right: 28px; transform: rotate(90deg) translateX(50%); transform-origin: right center; }
+
+    /* Hero Section */
+    .hero-new {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 100px 64px 120px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+        min-height: calc(100vh - 100px);
+    }
+
+    .hero-content-new {
+        position: relative;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        color: #2563eb;
+        margin-bottom: 32px;
+        padding: 10px 16px;
+        border: 1px solid #2563eb;
+        position: relative;
+    }
+
+    .status-badge::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: #2563eb;
+        animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+
+    .hero-title-new {
+        font-family: 'Syne', sans-serif;
+        font-size: 64px;
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin-bottom: 28px;
+        color: #1a1a1a;
+    }
+
+    .highlight-frame {
+        position: relative;
+        display: inline-block;
+        color: #2563eb;
+    }
+
+    .highlight-frame::before,
+    .highlight-frame::after {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border: 2px solid #2563eb;
+    }
+
+    .highlight-frame::before {
+        top: -8px;
+        left: -12px;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    .highlight-frame::after {
+        bottom: -8px;
+        right: -12px;
+        border-left: none;
+        border-top: none;
+    }
+
+    .hero-desc-new {
+        font-size: 18px;
+        color: #6b7280;
+        line-height: 1.8;
+        max-width: 440px;
+        margin-bottom: 48px;
+    }
+
+    .hero-cta-group {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .btn-primary-new {
+        padding: 16px 32px;
+        background: #1a1a1a;
+        color: #fff;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-primary-new:hover {
+        background: #2563eb;
+    }
+
+    .btn-secondary-new {
+        padding: 16px 32px;
+        background: transparent;
+        color: #1a1a1a;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        border: 2px solid #1a1a1a;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-secondary-new:hover {
+        background: #1a1a1a;
+        color: #fff;
+    }
+
+    .hero-stats {
+        display: flex;
+        gap: 32px;
+        font-size: 13px;
+        color: #6b7280;
+    }
+
+    .hero-stats strong {
+        color: #1a1a1a;
+        font-weight: 600;
+    }
+
+    /* Visual Frame Stack */
+    .frame-visual {
+        position: relative;
+        height: 480px;
+    }
+
+    .visual-frame {
+        position: absolute;
+        background: #fff;
+        border: 2px solid #e5e5e5;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .visual-frame:hover {
+        border-color: #2563eb;
+        transform: translate(-8px, -8px);
+        box-shadow: 8px 8px 0 #2563eb;
+    }
+
+    .frame-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid #e5e5e5;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .frame-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e5e5e5;
+    }
+
+    .frame-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #6b7280;
+        margin-left: auto;
+    }
+
+    .frame-body {
+        padding: 20px;
+    }
+
+    /* Frame 1: Test Results */
+    .vf-1 {
+        top: 0;
+        left: 0;
+        width: 300px;
+        z-index: 3;
+    }
+
+    .test-results {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .test-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+    }
+
+    .test-status {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        color: #fff;
+    }
+
+    .test-status.pass { background: #10b981; }
+    .test-status.fail { background: #ef4444; }
+
+    .test-name {
+        font-family: 'JetBrains Mono', monospace;
+        color: #6b7280;
+    }
+
+    .test-time {
+        margin-left: auto;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #6b7280;
+    }
+
+    /* Frame 2: Metrics */
+    .vf-2 {
+        top: 80px;
+        right: 0;
+        width: 240px;
+        z-index: 2;
+    }
+
+    .metric-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .metric-item {
+        text-align: center;
+    }
+
+    .metric-value {
+        font-family: 'Syne', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .metric-label {
+        font-size: 11px;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 4px;
+    }
+
+    /* Frame 3: Code */
+    .vf-3 {
+        bottom: 40px;
+        left: 40px;
+        width: 340px;
+        z-index: 1;
+    }
+
+    .code-preview {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        line-height: 1.8;
+        color: #6b7280;
+    }
+
+    .code-preview .keyword { color: #7c3aed; }
+    .code-preview .string { color: #059669; }
+    .code-preview .function { color: #2563eb; }
+
+    /* Features Section */
+    .features-new {
+        padding: 100px 64px;
+        background: #1a1a1a;
+        color: #fff;
+        position: relative;
+    }
+
+    .features-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .features-header-new {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 64px;
+    }
+
+    .features-title-new {
+        font-family: 'Syne', sans-serif;
+        font-size: 48px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+    }
+
+    .features-subtitle {
+        color: rgba(255,255,255,0.5);
+        font-size: 14px;
+    }
+
+    .features-grid-new {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+        background: rgba(255,255,255,0.1);
+    }
+
+    .feature-card-new {
+        background: #1a1a1a;
+        padding: 40px 32px;
+        transition: background 0.3s;
+    }
+
+    .feature-card-new:hover {
+        background: #2a2a2a;
+    }
+
+    .feature-number {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        color: #2563eb;
+        margin-bottom: 24px;
+    }
+
+    .feature-title-new {
+        font-family: 'Syne', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .feature-desc-new {
+        font-size: 14px;
+        color: rgba(255,255,255,0.5);
+        line-height: 1.7;
+    }
+
+    /* Trusted By Section */
+    .trusted-by {
+        padding: 80px 64px;
+        text-align: center;
+        background: #fafafa;
+    }
+
+    .trusted-by-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 32px;
+    }
+
+    .trusted-logos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 48px;
+        flex-wrap: wrap;
+        opacity: 0.4;
+    }
+
+    .trusted-logos span {
+        font-family: 'Syne', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        padding: 120px 64px;
+        text-align: center;
+        background: #2563eb;
+        color: #fff;
+    }
+
+    .cta-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 48px;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .cta-desc {
+        font-size: 18px;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 40px;
+    }
+
+    .cta-btn {
+        padding: 18px 40px;
+        background: #fff;
+        color: #2563eb;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s;
+    }
+
+    .cta-btn:hover {
+        background: #1a1a1a;
+        color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+        .hero-new {
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+
+        .frame-visual {
+            height: 360px;
+        }
+
+        .vf-2 { right: auto; left: 200px; top: 120px; }
+        .vf-3 { bottom: 0; left: 60px; }
+
+        .features-grid-new {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .page-frame { inset: 8px; }
+        .frame-label { display: none; }
+
+        .hero-new { padding: 60px 24px 80px; }
+        .hero-title-new { font-size: 40px; }
+
+        .frame-visual { display: none; }
+
+        .hero-cta-group { flex-direction: column; }
+
+        .features-new { padding: 60px 24px; }
+        .features-grid-new { grid-template-columns: 1fr; }
+        .features-header-new { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+        .trusted-by { padding: 60px 24px; }
+        .cta-section { padding: 80px 24px; }
+    }
+</style>
+
+<span class="frame-label top">FrameLab // AI Testing Framework</span>
+<span class="frame-label bottom">© 2026</span>
+<span class="frame-label left">Now in Public Beta</span>
+<span class="frame-label right">Python Native</span>
+
+<section class="hero-new">
+    <div class="hero-content-new">
+        <div class="status-badge">Now in Public Beta</div>
+
+        <h1 class="hero-title-new">Frame your<br><span class="highlight-frame">AI agents</span><br>for success</h1>
+
+        <p class="hero-desc-new">
+            The Python framework for testing, benchmarking, and optimizing AI agents. Structure your testing. Ship with confidence.
+        </p>
+
+        <div class="hero-cta-group">
+            <a href="/signup" class="btn-primary-new">
+                Get Started Free
+                <span>→</span>
+            </a>
+            <a href="/docs" class="btn-secondary-new">
+                View Documentation
+            </a>
+        </div>
+
+        <div class="hero-stats">
+            <span><strong>2,847+</strong> developers</span>
+            <span><strong>Free</strong> for open source</span>
+            <span><strong>No</strong> credit card required</span>
+        </div>
+    </div>
+
+    <div class="frame-visual">
+        <!-- Frame 1: Test Results -->
+        <div class="visual-frame vf-1">
+            <div class="frame-header">
+                <span class="frame-dot"></span>
+                <span class="frame-dot"></span>
+                <span class="frame-dot"></span>
+                <span class="frame-title">test_results.py</span>
+            </div>
+            <div class="frame-body">
+                <div class="test-results">
+                    <div class="test-row">
+                        <span class="test-status pass">✓</span>
+                        <span class="test-name">test_summarization</span>
+                        <span class="test-time">47ms</span>
+                    </div>
+                    <div class="test-row">
+                        <span class="test-status pass">✓</span>
+                        <span class="test-name">test_qa_response</span>
+                        <span class="test-time">82ms</span>
+                    </div>
+                    <div class="test-row">
+                        <span class="test-status fail">✗</span>
+                        <span class="test-name">test_edge_case</span>
+                        <span class="test-time">156ms</span>
+                    </div>
+                    <div class="test-row">
+                        <span class="test-status pass">✓</span>
+                        <span class="test-name">test_formatting</span>
+                        <span class="test-time">23ms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Frame 2: Metrics -->
+        <div class="visual-frame vf-2">
+            <div class="frame-header">
+                <span class="frame-dot"></span>
+                <span class="frame-dot"></span>
+                <span class="frame-dot"></span>
+                <span class="frame-title">metrics</span>
+            </div>
+            <div class="frame-body">
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="metric-value">94%</div>
+                        <div class="metric-label">Pass Rate</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">52ms</div>
+                        <div class="metric-label">Avg Time</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">$0.02</div>
+                        <div class="metric-label">Cost/Run</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">156</div>
+                        <div class="metric-label">Tests</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Frame 3: Code -->
+        <div class="visual-frame vf-3">
+            <div class="frame-header">
+                <span class="frame-dot"></span>
+                <span class="frame-dot"></span>
+                <span class="frame-dot"></span>
+                <span class="frame-title">test_agent.py</span>
+            </div>
+            <div class="frame-body">
+                <div class="code-preview">
+<span class="keyword">from</span> framelab <span class="keyword">import</span> test
+
+<span class="keyword">@test</span>
+<span class="keyword">def</span> <span class="function">test_response</span>(agent):
+    result = agent.run(<span class="string">"Hello"</span>)
+    <span class="keyword">assert</span> result.is_valid()
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trusted By -->
+<section class="trusted-by">
+    <p class="trusted-by-label">Trusted by AI teams at</p>
+    <div class="trusted-logos">
+        <span>Anthropic</span>
+        <span>OpenAI</span>
+        <span>Cohere</span>
+        <span>Replicate</span>
+        <span>Hugging Face</span>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="features-new">
+    <div class="features-inner">
+        <div class="features-header-new">
+            <h2 class="features-title-new">Built for structure</h2>
+            <span class="features-subtitle">Everything you need to frame reliable AI systems</span>
+        </div>
+
+        <div class="features-grid-new">
+            <div class="feature-card-new">
+                <div class="feature-number">01</div>
+                <h3 class="feature-title-new">Test Suites</h3>
+                <p class="feature-desc-new">Organize tests into logical frames. Group by behavior, model, or use case.</p>
+            </div>
+            <div class="feature-card-new">
+                <div class="feature-number">02</div>
+                <h3 class="feature-title-new">Benchmarks</h3>
+                <p class="feature-desc-new">Frame performance metrics. Compare latency, cost, and accuracy side by side.</p>
+            </div>
+            <div class="feature-card-new">
+                <div class="feature-number">03</div>
+                <h3 class="feature-title-new">Assertions</h3>
+                <p class="feature-desc-new">Purpose-built for AI. Check relevance, factuality, and semantic similarity.</p>
+            </div>
+            <div class="feature-card-new">
+                <div class="feature-number">04</div>
+                <h3 class="feature-title-new">Regression Testing</h3>
+                <p class="feature-desc-new">Catch issues before production. Compare outputs against golden baselines.</p>
+            </div>
+            <div class="feature-card-new">
+                <div class="feature-number">05</div>
+                <h3 class="feature-title-new">Optimization</h3>
+                <p class="feature-desc-new">Auto-tune prompts within defined frames. Improve without breaking.</p>
+            </div>
+            <div class="feature-card-new">
+                <div class="feature-number">06</div>
+                <h3 class="feature-title-new">CI/CD Ready</h3>
+                <p class="feature-desc-new">Frame your pipeline. Integrate with GitHub Actions, GitLab, and more.</p>
+            </div>
+            <div class="feature-card-new">
+                <div class="feature-number">07</div>
+                <h3 class="feature-title-new">Cloud Execution</h3>
+                <p class="feature-desc-new">Run tests in the cloud. Scale to thousands of tests without infrastructure.</p>
+            </div>
+            <div class="feature-card-new">
+                <div class="feature-number">08</div>
+                <h3 class="feature-title-new">Analytics</h3>
+                <p class="feature-desc-new">Track trends over time. Visualize performance and cost metrics.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2 class="cta-title">Ready to ship reliable AI?</h2>
+    <p class="cta-desc">Join thousands of AI engineers who trust FrameLab</p>
+    <a href="/signup" class="cta-btn">
+        Get Started Free
+        <span>→</span>
+    </a>
+</section>
+
+<%- include('../partials/footer') %>

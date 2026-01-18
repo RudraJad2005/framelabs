@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+
+<!-- Error Page -->
+<main style="min-height: 70vh; display: flex; align-items: center; justify-content: center; padding-top: 72px;">
+    <div class="container text-center">
+        <h1 style="font-size: 4rem; color: var(--error); margin-bottom: 1rem;">Oops!</h1>
+        <h2 style="margin-bottom: 1rem;">Something went wrong</h2>
+        <p style="margin-bottom: 2rem;"><%= message || 'An unexpected error occurred. Please try again later.' %></p>
+        <a href="/" class="btn btn-primary">Back to Home</a>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>

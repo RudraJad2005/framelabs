@@ -1,0 +1,615 @@
+<%- include('../partials/header') %>
+
+<style>
+    /* Navbar Styles */
+    #navbar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 10000 !important;
+        background: rgba(250, 250, 250, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+
+    #navbar .logo-text,
+    #navbar .nav-links a,
+    #navbar .nav-login {
+        color: #1a1a1a !important;
+    }
+
+    #navbar .logo-frame {
+        border-color: #1a1a1a !important;
+    }
+
+    #navbar .nav-cta {
+        background: #1a1a1a !important;
+        color: #fff !important;
+    }
+
+    body {
+        background: #fff;
+        padding-top: 0;
+    }
+
+    /* Docs Layout */
+    .docs-container {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding-top: 72px;
+        min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .docs-sidebar {
+        position: sticky;
+        top: 72px;
+        height: calc(100vh - 72px);
+        overflow-y: auto;
+        background: #fafafa;
+        border-right: 1px solid #e5e5e5;
+        padding: 40px 0;
+    }
+
+    .docs-sidebar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .docs-sidebar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .docs-sidebar::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 3px;
+    }
+
+    .sidebar-section {
+        margin-bottom: 32px;
+        padding: 0 24px;
+    }
+
+    .sidebar-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 12px;
+    }
+
+    .sidebar-links {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .sidebar-link {
+        padding: 10px 16px;
+        color: #4b5563;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .sidebar-link:hover {
+        background: #e5e7eb;
+        color: #1a1a1a;
+    }
+
+    .sidebar-link.active {
+        background: #2563eb;
+        color: #fff;
+        font-weight: 600;
+    }
+
+    /* Main Content */
+    .docs-content {
+        padding: 60px 80px 120px;
+        max-width: 900px;
+    }
+
+    .docs-header {
+        margin-bottom: 48px;
+    }
+
+    .docs-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: #6b7280;
+        margin-bottom: 16px;
+    }
+
+    .docs-breadcrumb a {
+        color: #2563eb;
+        text-decoration: none;
+    }
+
+    .docs-breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .docs-content h1 {
+        font-family: 'Syne', sans-serif;
+        font-size: 48px;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 16px;
+        letter-spacing: -0.02em;
+    }
+
+    .docs-content .lead {
+        font-size: 20px;
+        color: #6b7280;
+        line-height: 1.7;
+        margin-bottom: 40px;
+    }
+
+    .docs-content h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-top: 48px;
+        margin-bottom: 20px;
+        letter-spacing: -0.01em;
+    }
+
+    .docs-content h3 {
+        font-family: 'Syne', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-top: 32px;
+        margin-bottom: 16px;
+    }
+
+    .docs-content p {
+        font-size: 16px;
+        color: #4b5563;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .docs-content ul,
+    .docs-content ol {
+        margin-bottom: 20px;
+        padding-left: 24px;
+    }
+
+    .docs-content li {
+        font-size: 16px;
+        color: #4b5563;
+        line-height: 1.8;
+        margin-bottom: 8px;
+    }
+
+    .docs-content code {
+        background: #f3f4f6;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        color: #2563eb;
+    }
+
+    .docs-content pre {
+        background: #1a1a1a;
+        padding: 24px;
+        border-radius: 12px;
+        overflow-x: auto;
+        margin-bottom: 24px;
+    }
+
+    .docs-content pre code {
+        background: transparent;
+        padding: 0;
+        color: #10b981;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    /* Info Box */
+    .info-box {
+        background: #eff6ff;
+        border-left: 4px solid #2563eb;
+        padding: 20px 24px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    .info-box-title {
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .info-box p {
+        margin: 0;
+        color: #1e40af;
+    }
+
+    /* Warning Box */
+    .warning-box {
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 20px 24px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+
+    .warning-box-title {
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .warning-box p {
+        margin: 0;
+        color: #92400e;
+    }
+
+    /* Navigation Buttons */
+    .docs-nav {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 64px;
+        padding-top: 32px;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .docs-nav-btn {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 20px 24px;
+        background: #fafafa;
+        border: 2px solid #e5e5e5;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.2s;
+        max-width: 45%;
+    }
+
+    .docs-nav-btn:hover {
+        border-color: #2563eb;
+        background: #fff;
+    }
+
+    .docs-nav-label {
+        font-size: 12px;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+    }
+
+    .docs-nav-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle {
+        display: none;
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 56px;
+        height: 56px;
+        background: #2563eb;
+        border-radius: 50%;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        z-index: 1000;
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+        .docs-container {
+            grid-template-columns: 1fr;
+        }
+
+        .docs-sidebar {
+            position: fixed;
+            left: -280px;
+            top: 72px;
+            width: 280px;
+            z-index: 999;
+            transition: left 0.3s;
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .docs-sidebar.open {
+            left: 0;
+        }
+
+        .docs-content {
+            padding: 40px 24px 100px;
+        }
+
+        .mobile-menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .docs-nav {
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .docs-nav-btn {
+            max-width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .docs-content h1 {
+            font-size: 36px;
+        }
+
+        .docs-content h2 {
+            font-size: 28px;
+        }
+    }
+</style>
+
+<div class="docs-container">
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="docsSidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Getting Started</div>
+            <div class="sidebar-links">
+                <a href="#introduction" class="sidebar-link active">Introduction</a>
+                <a href="#installation" class="sidebar-link">Installation</a>
+                <a href="#quick-start" class="sidebar-link">Quick Start</a>
+                <a href="#configuration" class="sidebar-link">Configuration</a>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Core Concepts</div>
+            <div class="sidebar-links">
+                <a href="#test-suites" class="sidebar-link">Test Suites</a>
+                <a href="#assertions" class="sidebar-link">Assertions</a>
+                <a href="#benchmarks" class="sidebar-link">Benchmarks</a>
+                <a href="#regression-testing" class="sidebar-link">Regression Testing</a>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Advanced</div>
+            <div class="sidebar-links">
+                <a href="#property-testing" class="sidebar-link">Property Testing</a>
+                <a href="#ci-cd" class="sidebar-link">CI/CD Integration</a>
+                <a href="#optimization" class="sidebar-link">Optimization</a>
+                <a href="#custom-assertions" class="sidebar-link">Custom Assertions</a>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">API Reference</div>
+            <div class="sidebar-links">
+                <a href="#api-overview" class="sidebar-link">API Overview</a>
+                <a href="#test-decorators" class="sidebar-link">Test Decorators</a>
+                <a href="#assertion-methods" class="sidebar-link">Assertion Methods</a>
+                <a href="#configuration-api" class="sidebar-link">Configuration API</a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="docs-content">
+        <div class="docs-header">
+            <div class="docs-breadcrumb">
+                <a href="/docs">Documentation</a>
+                <span>/</span>
+                <span>Getting Started</span>
+            </div>
+            <h1>Introduction</h1>
+            <p class="lead">Welcome to FrameLab! This guide will help you get started with testing your AI agents in minutes.</p>
+        </div>
+
+        <section id="what-is-framelab">
+            <h2>What is FrameLab?</h2>
+            <p>FrameLab is a Python framework designed specifically for testing, benchmarking, and optimizing AI agents. Unlike traditional testing frameworks, FrameLab understands the unique challenges of testing non-deterministic systems.</p>
+            
+            <div class="info-box">
+                <div class="info-box-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    Key Features
+                </div>
+                <p>Semantic assertions, intelligent benchmarking, automated regression detection, and property-based testing built specifically for AI systems.</p>
+            </div>
+        </section>
+
+        <section id="installation">
+            <h2>Installation</h2>
+            <p>Install FrameLab using pip. It works with Python 3.8 and above.</p>
+            
+            <pre><code>pip install framelab</code></pre>
+            
+            <p>For development installations with additional tools:</p>
+            
+            <pre><code>pip install framelab[dev]</code></pre>
+        </section>
+
+        <section id="quick-start">
+            <h2>Quick Start</h2>
+            <p>Here's a simple example to get you started with FrameLab:</p>
+            
+            <h3>1. Create your first test</h3>
+            <pre><code>from framelab import test, assert_semantic_match
+
+@test
+def test_agent_greeting():
+    result = my_agent.run("Hello!")
+    assert_semantic_match(
+        result.output,
+        "A friendly greeting response"
+    )</code></pre>
+
+            <h3>2. Run your tests</h3>
+            <pre><code>framelab run --suite all</code></pre>
+
+            <h3>3. View results</h3>
+            <p>FrameLab will output detailed test results including:</p>
+            <ul>
+                <li>Pass/fail status for each test</li>
+                <li>Execution time and cost metrics</li>
+                <li>Semantic similarity scores</li>
+                <li>Detailed failure messages</li>
+            </ul>
+        </section>
+
+        <section id="configuration">
+            <h2>Configuration</h2>
+            <p>Configure FrameLab by creating a <code>framelab.config.py</code> file in your project root:</p>
+            
+            <pre><code>from framelab import Config
+
+config = Config(
+    model="gpt-4",
+    temperature=0.7,
+    max_tokens=1000,
+    timeout=30
+)</code></pre>
+
+            <div class="warning-box">
+                <div class="warning-box-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    Important
+                </div>
+                <p>Make sure to set your API keys as environment variables before running tests. Never commit API keys to version control.</p>
+            </div>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Now that you have FrameLab installed, here are some recommended next steps:</p>
+            <ul>
+                <li>Learn about <a href="#test-suites" style="color: #2563eb;">Test Suites</a> to organize your tests</li>
+                <li>Explore <a href="#assertions" style="color: #2563eb;">Assertions</a> for semantic testing</li>
+                <li>Set up <a href="#ci-cd" style="color: #2563eb;">CI/CD Integration</a> for automated testing</li>
+                <li>Read about <a href="#property-testing" style="color: #2563eb;">Property Testing</a> for comprehensive coverage</li>
+            </ul>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="docs-nav">
+            <a href="#" class="docs-nav-btn" style="visibility: hidden;">
+                <span class="docs-nav-label">Previous</span>
+                <span class="docs-nav-title">—</span>
+            </a>
+            <a href="#installation" class="docs-nav-btn">
+                <span class="docs-nav-label">Next</span>
+                <span class="docs-nav-title">Installation →</span>
+            </a>
+        </nav>
+    </main>
+</div>
+
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" onclick="toggleSidebar()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+</button>
+
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('docsSidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        const sidebar = document.getElementById('docsSidebar');
+        const toggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (window.innerWidth <= 1000 && 
+            !sidebar.contains(e.target) && 
+            !toggle.contains(e.target) && 
+            sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+        }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href !== '#' && href.length > 1) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    const offset = 100;
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile sidebar
+                    if (window.innerWidth <= 1000) {
+                        document.getElementById('docsSidebar').classList.remove('open');
+                    }
+                }
+            }
+        });
+    });
+
+    // Update active link on scroll
+    window.addEventListener('scroll', function() {
+        const sections = document.querySelectorAll('section[id]');
+        const scrollPos = window.scrollY + 150;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                document.querySelectorAll('.sidebar-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + sectionId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<%- include('../partials/footer') %>

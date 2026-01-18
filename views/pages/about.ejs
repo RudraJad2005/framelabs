@@ -1,0 +1,618 @@
+<%- include('../partials/header') %>
+
+<style>
+    /* Navbar Styles */
+    #navbar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 10000 !important;
+        background: rgba(250, 250, 250, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+
+    #navbar .logo-text,
+    #navbar .nav-links a,
+    #navbar .nav-login {
+        color: #1a1a1a !important;
+    }
+
+    #navbar .logo-frame {
+        border-color: #1a1a1a !important;
+    }
+
+    #navbar .nav-cta {
+        background: #1a1a1a !important;
+        color: #fff !important;
+    }
+
+    body {
+        background: #fff;
+        padding-top: 0;
+    }
+
+    /* Hero Section - Full Width with Pattern */
+    .story-hero {
+        position: relative;
+        padding: 180px 64px 120px;
+        background: #2563eb;
+        overflow: hidden;
+    }
+
+    .story-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+            linear-gradient(-45deg, rgba(255,255,255,0.03) 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.03) 75%),
+            linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.03) 75%);
+        background-size: 60px 60px;
+        background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+        opacity: 0.5;
+    }
+
+    .story-hero-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .story-hero h1 {
+        font-family: 'Syne', sans-serif;
+        font-size: 72px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: #fff;
+        margin-bottom: 28px;
+    }
+
+    .story-hero p {
+        font-size: 22px;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.7;
+    }
+
+    /* Story Narrative Section */
+    .story-narrative {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 120px 64px;
+    }
+
+    .story-narrative h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: 48px;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 40px;
+        letter-spacing: -0.02em;
+    }
+
+    .story-narrative p {
+        font-size: 20px;
+        color: #4b5563;
+        line-height: 1.9;
+        margin-bottom: 32px;
+    }
+
+    .story-narrative p:first-of-type::first-letter {
+        font-size: 72px;
+        font-weight: 800;
+        float: left;
+        line-height: 1;
+        margin: 0 12px 0 0;
+        color: #2563eb;
+        font-family: 'Syne', sans-serif;
+    }
+
+    /* Image + Text Alternating Sections */
+    .content-section {
+        padding: 100px 64px;
+    }
+
+    .content-section:nth-child(even) {
+        background: #fafafa;
+    }
+
+    .content-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+    }
+
+    .content-inner.reverse {
+        direction: rtl;
+    }
+
+    .content-inner.reverse > * {
+        direction: ltr;
+    }
+
+    .content-visual {
+        background: #2563eb;
+        border-radius: 20px;
+        padding: 60px;
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 24px;
+    }
+
+    .content-visual-alt {
+        background: #1a1a1a;
+        border-radius: 20px;
+        padding: 60px;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-family: 'Syne', sans-serif;
+        font-size: 48px;
+        font-weight: 800;
+        text-align: center;
+    }
+
+    .stat-box {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 24px 28px;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+    }
+
+    .stat-number {
+        font-family: 'Syne', sans-serif;
+        font-size: 36px;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 8px;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .content-text h3 {
+        font-family: 'Syne', sans-serif;
+        font-size: 36px;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 24px;
+        letter-spacing: -0.02em;
+    }
+
+    .content-text p {
+        font-size: 18px;
+        color: #6b7280;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    /* Values Bento Grid */
+    .values-bento {
+        padding: 120px 64px;
+        background: #fff;
+    }
+
+    .values-bento-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .values-bento h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: 48px;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 60px;
+        text-align: center;
+    }
+
+    .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 20px;
+    }
+
+    .bento-item {
+        background: #fafafa;
+        border: 2px solid #e5e5e5;
+        border-radius: 20px;
+        padding: 40px;
+        transition: all 0.3s;
+    }
+
+    .bento-item:hover {
+        transform: translateY(-4px);
+        border-color: #2563eb;
+    }
+
+    .bento-item.large {
+        grid-column: span 6;
+    }
+
+    .bento-item.medium {
+        grid-column: span 4;
+    }
+
+    .bento-item.small {
+        grid-column: span 3;
+    }
+
+    .bento-icon {
+        width: 56px;
+        height: 56px;
+        background: #2563eb;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+    }
+
+    .bento-item h4 {
+        font-family: 'Syne', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 12px;
+    }
+
+    .bento-item p {
+        font-size: 15px;
+        color: #6b7280;
+        line-height: 1.7;
+    }
+
+    /* Team Section - Compact */
+    .team-compact {
+        padding: 100px 64px;
+        background: #fafafa;
+        text-align: center;
+    }
+
+    .team-compact h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: 48px;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+    }
+
+    .team-compact p {
+        font-size: 18px;
+        color: #6b7280;
+        margin-bottom: 60px;
+    }
+
+    .team-list {
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .team-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 32px;
+        background: #fff;
+        border: 2px solid #e5e5e5;
+        border-radius: 12px;
+        transition: all 0.2s;
+    }
+
+    .team-item:hover {
+        border-color: #2563eb;
+    }
+
+    .team-item-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .team-avatar-small {
+        width: 56px;
+        height: 56px;
+        background: #2563eb;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Syne', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .team-info h4 {
+        font-family: 'Syne', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 4px;
+    }
+
+    .team-info p {
+        font-size: 14px;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    /* CTA Section */
+    .cta-story {
+        padding: 120px 64px;
+        background: #1a1a1a;
+        text-align: center;
+        color: #fff;
+    }
+
+    .cta-story h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: 56px;
+        font-weight: 800;
+        margin-bottom: 24px;
+    }
+
+    .cta-story p {
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 40px;
+    }
+
+    .cta-btn-story {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 20px 48px;
+        background: #2563eb;
+        color: #fff;
+        text-decoration: none;
+        font-size: 17px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.2s;
+    }
+
+    .cta-btn-story:hover {
+        background: #fff;
+        color: #1a1a1a;
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+        .story-hero h1 {
+            font-size: 52px;
+        }
+
+        .content-inner {
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+
+        .content-inner.reverse {
+            direction: ltr;
+        }
+
+        .bento-item.large,
+        .bento-item.medium,
+        .bento-item.small {
+            grid-column: span 12;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .story-hero {
+            padding: 140px 24px 100px;
+        }
+
+        .story-hero h1 {
+            font-size: 40px;
+        }
+
+        .story-narrative,
+        .content-section,
+        .values-bento,
+        .team-compact,
+        .cta-story {
+            padding: 80px 24px;
+        }
+
+        .story-narrative h2 {
+            font-size: 36px;
+        }
+
+        .story-narrative p {
+            font-size: 18px;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="story-hero">
+    <div class="story-hero-inner">
+        <h1>Every great product<br>starts with a problem</h1>
+        <p>This is the story of how we're solving one of the hardest challenges in modern software development</p>
+    </div>
+</section>
+
+<!-- Story Narrative -->
+<section class="story-narrative">
+    <h2>The Problem</h2>
+    <p>In early 2024, our founding team was building AI agents for production systems. We were excited about the possibilities—agents that could understand context, make decisions, and automate complex workflows.</p>
+    <p>But we kept running into the same wall: how do you test something that's non-deterministic? Traditional unit tests couldn't capture semantic correctness. Manual testing didn't scale. And every prompt change felt like walking on eggshells.</p>
+    <p>We looked for solutions. Existing testing frameworks weren't built for AI. They expected deterministic outputs, predictable edge cases, and objective pass/fail criteria. None of that applies to AI agents.</p>
+    <p>So we built FrameLab.</p>
+</section>
+
+<!-- Content Section 1 -->
+<section class="content-section">
+    <div class="content-inner">
+        <div class="content-text">
+            <h3>Built for AI, from the ground up</h3>
+            <p>FrameLab isn't a traditional testing framework adapted for AI. It's purpose-built from scratch to handle the unique challenges of testing non-deterministic systems.</p>
+            <p>We created semantic assertions that understand meaning, not just exact matches. We built intelligent benchmarking that compares performance across models and prompts. We automated regression detection that catches subtle quality degradations.</p>
+            <p>Everything is designed around one goal: make AI systems as reliable and testable as traditional software.</p>
+        </div>
+        <div class="content-visual">
+            <div class="stat-box">
+                <div class="stat-number">2,847+</div>
+                <div class="stat-label">Developers using FrameLab</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">1.2M+</div>
+                <div class="stat-label">Tests run every month</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">Platform uptime</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Content Section 2 -->
+<section class="content-section">
+    <div class="content-inner reverse">
+        <div class="content-text">
+            <h3>The response has been incredible</h3>
+            <p>We launched in beta six months ago, expecting a handful of early adopters. Instead, thousands of developers signed up in the first week.</p>
+            <p>Teams at companies like Anthropic, OpenAI, and Cohere started using FrameLab to test their AI systems. Open source projects integrated it into their CI/CD pipelines. Individual developers told us it changed how they build with AI.</p>
+            <p>The feedback has been overwhelming. And it's pushed us to move faster, build better, and think bigger about what's possible.</p>
+        </div>
+        <div class="content-visual-alt">
+            "FrameLab caught a critical regression before it went live"
+        </div>
+    </div>
+</section>
+
+<!-- Values Bento Grid -->
+<section class="values-bento">
+    <div class="values-bento-inner">
+        <h2>What drives us</h2>
+        <div class="bento-grid">
+            <div class="bento-item large">
+                <div class="bento-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h4>Developer First</h4>
+                <p>We build tools we'd want to use ourselves. Simple APIs, clear documentation, and intuitive workflows are non-negotiable. Every feature starts with the question: would this make our lives easier?</p>
+            </div>
+            <div class="bento-item large">
+                <div class="bento-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h4>Speed Matters</h4>
+                <p>Fast feedback loops accelerate innovation. We optimize every millisecond so you can iterate faster. Because the difference between 100ms and 10ms is the difference between flow and frustration.</p>
+            </div>
+            <div class="bento-item medium">
+                <div class="bento-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </div>
+                <h4>Open Source</h4>
+                <p>Our core is open source and free forever for public projects. We believe in giving back to the community that makes our work possible.</p>
+            </div>
+            <div class="bento-item medium">
+                <div class="bento-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h4>Security First</h4>
+                <p>Your code and data are sacred. We're SOC 2 compliant with end-to-end encryption by default. No compromises.</p>
+            </div>
+            <div class="bento-item medium">
+                <div class="bento-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <h4>Transparency</h4>
+                <p>No hidden costs, no surprises. We're upfront about pricing, limitations, and our roadmap.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="team-compact">
+    <h2>The Team</h2>
+    <p>Meet the people building FrameLab</p>
+    <div class="team-list">
+        <div class="team-item">
+            <div class="team-item-left">
+                <div class="team-avatar-small">SK</div>
+                <div class="team-info">
+                    <h4>Sarah Kim</h4>
+                    <p>Co-Founder & CEO</p>
+                </div>
+            </div>
+        </div>
+        <div class="team-item">
+            <div class="team-item-left">
+                <div class="team-avatar-small">JR</div>
+                <div class="team-info">
+                    <h4>James Rodriguez</h4>
+                    <p>Co-Founder & CTO</p>
+                </div>
+            </div>
+        </div>
+        <div class="team-item">
+            <div class="team-item-left">
+                <div class="team-avatar-small">AP</div>
+                <div class="team-info">
+                    <h4>Alex Patel</h4>
+                    <p>Head of Engineering</p>
+                </div>
+            </div>
+        </div>
+        <div class="team-item">
+            <div class="team-item-left">
+                <div class="team-avatar-small">MC</div>
+                <div class="team-info">
+                    <h4>Maria Chen</h4>
+                    <p>Head of Product</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-story">
+    <h2>We're just getting started</h2>
+    <p>Join us on this journey to make AI systems reliable</p>
+    <a href="/signup" class="cta-btn-story">
+        Get Started Free
+        <span>→</span>
+    </a>
+</section>
+
+<%- include('../partials/footer') %>

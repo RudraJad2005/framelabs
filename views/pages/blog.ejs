@@ -1,0 +1,638 @@
+<%- include('../partials/header') %>
+
+<style>
+    /* Navbar Styles */
+    #navbar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 10000 !important;
+        background: rgba(250, 250, 250, 0.95) !important;
+        backdrop-filter: blur(10px) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+
+    #navbar .logo-text,
+    #navbar .nav-links a,
+    #navbar .nav-login {
+        color: #1a1a1a !important;
+    }
+
+    #navbar .logo-frame {
+        border-color: #1a1a1a !important;
+    }
+
+    #navbar .nav-cta {
+        background: #1a1a1a !important;
+        color: #fff !important;
+    }
+
+    body {
+        background: #fafafa;
+        padding-top: 0;
+    }
+
+    /* Hero Section */
+    .blog-hero {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 160px 64px 80px;
+    }
+
+    .blog-hero h1 {
+        font-family: 'Syne', sans-serif;
+        font-size: 64px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+    }
+
+    .blog-hero p {
+        font-size: 20px;
+        color: #6b7280;
+        line-height: 1.7;
+        max-width: 600px;
+    }
+
+    /* Filter Tabs */
+    .blog-filters {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 64px 40px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .filter-tab {
+        padding: 10px 20px;
+        background: #fff;
+        border: 2px solid #e5e5e5;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+
+    .filter-tab:hover,
+    .filter-tab.active {
+        background: #2563eb;
+        border-color: #2563eb;
+        color: #fff;
+    }
+
+    /* Blog Grid */
+    .blog-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 64px 120px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+
+    /* Featured Post */
+    .featured-post {
+        grid-column: span 3;
+        background: #fff;
+        border: 2px solid #e5e5e5;
+        border-radius: 20px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        transition: all 0.3s;
+    }
+
+    .featured-post:hover {
+        transform: translateY(-4px);
+        border-color: #2563eb;
+    }
+
+    .featured-image {
+        background: #fafafa;
+        border-right: 2px solid #e5e5e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px;
+    }
+
+    .featured-icon {
+        width: 120px;
+        height: 120px;
+        background: #2563eb;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .featured-content {
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .post-category {
+        display: inline-block;
+        padding: 6px 12px;
+        background: rgba(37, 99, 235, 0.1);
+        color: #2563eb;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .post-date {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .featured-content h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: 36px;
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 16px;
+        letter-spacing: -0.02em;
+    }
+
+    .featured-content p {
+        font-size: 17px;
+        color: #6b7280;
+        line-height: 1.7;
+        margin-bottom: 24px;
+    }
+
+    .read-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #2563eb;
+        font-weight: 600;
+        text-decoration: none;
+        transition: gap 0.2s;
+    }
+
+    .read-more:hover {
+        gap: 12px;
+    }
+
+    /* Blog Post Card */
+    .blog-post {
+        background: #fff;
+        border: 2px solid #e5e5e5;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: block;
+    }
+
+    .blog-post:hover {
+        transform: translateY(-4px);
+        border-color: #2563eb;
+    }
+
+    .post-image {
+        height: 200px;
+        background: #fafafa;
+        border-bottom: 2px solid #e5e5e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .post-icon {
+        width: 64px;
+        height: 64px;
+        background: #2563eb;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .post-content {
+        padding: 32px;
+    }
+
+    .post-content h3 {
+        font-family: 'Syne', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 12px;
+        line-height: 1.3;
+    }
+
+    .post-content p {
+        font-size: 15px;
+        color: #6b7280;
+        line-height: 1.7;
+        margin-bottom: 20px;
+    }
+
+    /* Newsletter Section */
+    .newsletter-section {
+        max-width: 1200px;
+        margin: 0 auto 120px;
+        padding: 0 64px;
+    }
+
+    .newsletter-box {
+        background: #2563eb;
+        border-radius: 20px;
+        padding: 60px;
+        text-align: center;
+    }
+
+    .newsletter-box h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: 36px;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 16px;
+    }
+
+    .newsletter-box p {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 32px;
+    }
+
+    .newsletter-form {
+        display: flex;
+        gap: 12px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .newsletter-input {
+        flex: 1;
+        padding: 16px 24px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        color: #fff;
+        font-size: 15px;
+        font-family: inherit;
+    }
+
+    .newsletter-input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .newsletter-input:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .newsletter-btn {
+        padding: 16px 32px;
+        background: #1a1a1a;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+
+    .newsletter-btn:hover {
+        background: #fff;
+        color: #2563eb;
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+        .blog-hero h1 {
+            font-size: 48px;
+        }
+
+        .blog-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .featured-post {
+            grid-column: span 1;
+            grid-template-columns: 1fr;
+        }
+
+        .featured-image {
+            min-height: 300px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .blog-hero {
+            padding: 120px 24px 60px;
+        }
+
+        .blog-hero h1 {
+            font-size: 36px;
+        }
+
+        .blog-filters,
+        .blog-grid,
+        .newsletter-section {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .featured-content,
+        .newsletter-box {
+            padding: 40px 24px;
+        }
+
+        .newsletter-form {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="blog-hero">
+    <h1>Blog</h1>
+    <p>Insights, tutorials, and updates from the FrameLab team</p>
+</section>
+
+<!-- Filter Tabs -->
+<div class="blog-filters">
+    <a href="#" class="filter-tab active">All Posts</a>
+    <a href="#" class="filter-tab">Tutorials</a>
+    <a href="#" class="filter-tab">Product Updates</a>
+    <a href="#" class="filter-tab">Best Practices</a>
+    <a href="#" class="filter-tab">Case Studies</a>
+</div>
+
+<!-- Blog Grid -->
+<div class="blog-grid">
+    <!-- Featured Post -->
+    <article class="featured-post">
+        <div class="featured-image">
+            <div class="featured-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+            </div>
+        </div>
+        <div class="featured-content">
+            <div class="post-meta">
+                <span class="post-category">Product Update</span>
+                <span class="post-date">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Jan 15, 2026
+                </span>
+            </div>
+            <h2>Introducing FrameLab 2.0: Faster, Smarter, Better</h2>
+            <p>We're excited to announce the biggest update to FrameLab yet. Version 2.0 brings 10x faster test execution, intelligent test generation, and a completely redesigned dashboard.</p>
+            <a href="#" class="read-more">
+                Read More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </article>
+
+    <!-- Blog Post 1 -->
+    <article class="blog-post">
+        <div class="post-image">
+            <div class="post-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+            </div>
+        </div>
+        <div class="post-content">
+            <div class="post-meta">
+                <span class="post-category">Tutorial</span>
+                <span class="post-date">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Jan 12, 2026
+                </span>
+            </div>
+            <h3>Getting Started with Property-Based Testing</h3>
+            <p>Learn how to write property-based tests for your AI agents and catch edge cases you never thought of.</p>
+            <a href="#" class="read-more">
+                Read More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </article>
+
+    <!-- Blog Post 2 -->
+    <article class="blog-post">
+        <div class="post-image">
+            <div class="post-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+            </div>
+        </div>
+        <div class="post-content">
+            <div class="post-meta">
+                <span class="post-category">Best Practices</span>
+                <span class="post-date">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Jan 10, 2026
+                </span>
+            </div>
+            <h3>5 Metrics Every AI Team Should Track</h3>
+            <p>Discover the key performance indicators that help you ship reliable AI systems faster.</p>
+            <a href="#" class="read-more">
+                Read More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </article>
+
+    <!-- Blog Post 3 -->
+    <article class="blog-post">
+        <div class="post-image">
+            <div class="post-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+            </div>
+        </div>
+        <div class="post-content">
+            <div class="post-meta">
+                <span class="post-category">Case Study</span>
+                <span class="post-date">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Jan 8, 2026
+                </span>
+            </div>
+            <h3>How Anthropic Tests Claude with FrameLab</h3>
+            <p>A deep dive into how one of the world's leading AI labs ensures quality at scale.</p>
+            <a href="#" class="read-more">
+                Read More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </article>
+
+    <!-- Blog Post 4 -->
+    <article class="blog-post">
+        <div class="post-image">
+            <div class="post-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </div>
+        </div>
+        <div class="post-content">
+            <div class="post-meta">
+                <span class="post-category">Tutorial</span>
+                <span class="post-date">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Jan 5, 2026
+                </span>
+            </div>
+            <h3>Optimizing LLM Costs with Smart Testing</h3>
+            <p>Learn how to reduce your AI testing costs by up to 80% without sacrificing quality.</p>
+            <a href="#" class="read-more">
+                Read More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </article>
+
+    <!-- Blog Post 5 -->
+    <article class="blog-post">
+        <div class="post-image">
+            <div class="post-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+        </div>
+        <div class="post-content">
+            <div class="post-meta">
+                <span class="post-category">Best Practices</span>
+                <span class="post-date">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Jan 3, 2026
+                </span>
+            </div>
+            <h3>Security Best Practices for AI Testing</h3>
+            <p>Protect your prompts, data, and models while maintaining comprehensive test coverage.</p>
+            <a href="#" class="read-more">
+                Read More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </article>
+
+    <!-- Blog Post 6 -->
+    <article class="blog-post">
+        <div class="post-image">
+            <div class="post-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+            </div>
+        </div>
+        <div class="post-content">
+            <div class="post-meta">
+                <span class="post-category">Product Update</span>
+                <span class="post-date">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Jan 1, 2026
+                </span>
+            </div>
+            <h3>2025 Year in Review: Thank You</h3>
+            <p>Reflecting on an incredible year of growth, innovation, and community building.</p>
+            <a href="#" class="read-more">
+                Read More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </article>
+</div>
+
+<!-- Newsletter Section -->
+<section class="newsletter-section">
+    <div class="newsletter-box">
+        <h2>Stay Updated</h2>
+        <p>Get the latest tutorials, product updates, and best practices delivered to your inbox</p>
+        <form class="newsletter-form" onsubmit="return false;">
+            <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+            <button type="submit" class="newsletter-btn">Subscribe</button>
+        </form>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>
