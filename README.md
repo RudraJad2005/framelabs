@@ -59,11 +59,16 @@ FrameLab/
 ### Prerequisites
 
 - Node.js 18+ 
-- MongoDB (optional for development)
+- MongoDB or PostgreSQL (optional for development)
 
 ### Installation
 
-1. Clone the repository
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/framelab.git
+   cd framelab
+   ```
+
 2. Install dependencies:
    ```bash
    npm install
@@ -74,12 +79,50 @@ FrameLab/
    cp .env.example .env
    ```
 
-4. Start the development server:
+4. Configure your environment variables in `.env`:
+   - Set `JWT_SECRET` to a secure random string
+   - Set `SESSION_SECRET` to a secure random string
+   - (Optional) Configure OAuth credentials for Google/GitHub login
+   - (Optional) Configure database connection string
+
+5. Start the development server:
    ```bash
    npm run dev
    ```
 
-5. Open http://localhost:3000
+6. Open http://localhost:3000
+
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Server Configuration
+PORT=3000
+NODE_ENV=development
+
+# Security
+JWT_SECRET=your-super-secret-jwt-key-change-this
+JWT_EXPIRE=7d
+SESSION_SECRET=your-session-secret-change-this
+COOKIE_EXPIRE=7
+
+# Database (Optional)
+MONGODB_URI=mongodb://localhost:27017/framelab
+# OR
+DATABASE_URL=postgresql://user:password@localhost:5432/framelab
+
+# OAuth (Optional - for social login)
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_CALLBACK_URL=http://localhost:3000/api/auth/google/callback
+
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+GITHUB_CALLBACK_URL=http://localhost:3000/api/auth/github/callback
+```
+
+**⚠️ IMPORTANT:** Never commit your `.env` file to version control!
 
 ## Scripts
 
@@ -112,3 +155,22 @@ FrameLab/
 ## License
 
 MIT
+
+## Security
+
+- All sensitive credentials are stored in `.env` file (excluded from git)
+- JWT tokens are used for authentication
+- Passwords are hashed using bcrypt
+- Session secrets are required for secure sessions
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Support
+
+For support, email support@framelab.com or open an issue on GitHub.
