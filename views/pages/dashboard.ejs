@@ -292,74 +292,109 @@
             max-width: 1600px;
         }
 
-        /* Stats Grid */
-        .stats-grid {
+        /* Hero Stats Section */
+        .hero-stats {
+            background: linear-gradient(135deg, #1f1f1f 0%, #252525 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-stats-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 12px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero-main-stat {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .hero-value {
+            font-size: 64px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .hero-label {
+            font-size: 18px;
+            color: rgba(255,255,255,0.6);
+            font-weight: 500;
+        }
+
+        .hero-metrics {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
+            gap: 32px;
         }
 
-        .stat-card {
-            background: #1f1f1f;
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 10px;
-            padding: 20px;
-            transition: all 0.15s ease;
-        }
-
-        .stat-card:hover {
-            border-color: rgba(37, 99, 235, 0.25);
-            background: #252525;
-            transform: translateY(-1px);
-        }
-
-        .stat-header {
+        .hero-metric {
             display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 16px;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .stat-label {
-            font-size: 12px;
-            color: rgba(255,255,255,0.45);
-            font-weight: 500;
-            letter-spacing: 0.01em;
-        }
-
-        .stat-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .stat-value {
-            font-size: 28px;
+        .hero-metric-value {
+            font-size: 32px;
             font-weight: 600;
-            margin-bottom: 8px;
             color: rgba(255,255,255,0.95);
         }
 
-        .stat-change {
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        .hero-metric-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.45);
             font-weight: 500;
         }
 
-        .stat-change.positive { color: #10b981; }
-        .stat-change.negative { color: #ef4444; }
+        .hero-metric-change {
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
 
-        /* Content Grid */
-        .content-grid {
+        .hero-metric-change.positive { color: #10b981; }
+        .hero-metric-change.negative { color: #ef4444; }
+
+        /* Activity Grid - Asymmetric Layout */
+        .activity-grid {
             display: grid;
-            grid-template-columns: 1.8fr 1fr;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        /* Bottom Grid */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 16px;
         }
 
@@ -401,133 +436,150 @@
             padding: 16px 20px;
         }
 
-        /* Test Runs Table */
-        .test-runs-table {
-            width: 100%;
-        }
-
-        .test-run-row {
+        /* Activity Timeline */
+        .activity-timeline {
             display: flex;
-            align-items: center;
-            padding: 14px 0;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
             border-bottom: 1px solid rgba(255,255,255,0.04);
-            gap: 12px;
-            transition: background 0.12s ease;
+            position: relative;
         }
 
-        .test-run-row:hover {
-            background: rgba(255,255,255,0.02);
-            margin: 0 -20px;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .test-run-row:last-child {
+        .activity-item:last-child {
             border-bottom: none;
         }
 
-        .test-run-status {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 40px;
+            bottom: -16px;
+            width: 1px;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .activity-item:last-child::before {
+            display: none;
+        }
+
+        .activity-icon-wrapper {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
+            position: relative;
+            z-index: 1;
         }
 
-        .test-run-status.passed { background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
-        .test-run-status.failed { background: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
-        .test-run-status.running { background: #f59e0b; animation: pulse 1.5s infinite; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .activity-icon-wrapper.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
         }
 
-        .test-run-info {
+        .activity-icon-wrapper.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .activity-icon-wrapper.info {
+            background: rgba(37, 99, 235, 0.15);
+            color: #2563eb;
+        }
+
+        .activity-icon-wrapper.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .activity-content {
             flex: 1;
             min-width: 0;
         }
 
-        .test-run-name {
-            font-size: 13px;
+        .activity-title {
+            font-size: 14px;
             font-weight: 500;
-            margin-bottom: 3px;
             color: rgba(255,255,255,0.9);
+            margin-bottom: 4px;
         }
 
-        .test-run-meta {
+        .activity-description {
+            font-size: 12px;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 6px;
+        }
+
+        .activity-time {
             font-size: 11px;
             color: rgba(255,255,255,0.35);
             font-family: 'JetBrains Mono', monospace;
         }
 
-        .test-run-stats {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-            font-weight: 500;
-        }
-
-        .test-run-time {
-            font-size: 11px;
-            color: rgba(255,255,255,0.35);
-            white-space: nowrap;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .quick-action {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
+        /* Mini Cards */
+        .mini-card {
             background: #1f1f1f;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.15s ease;
             cursor: pointer;
-            transition: all 0.12s ease;
             text-decoration: none;
-            color: #fff;
+            color: inherit;
+            display: block;
         }
 
-        .quick-action:hover {
-            background: rgba(37, 99, 235, 0.08);
-            border-color: rgba(37, 99, 235, 0.25);
-            transform: translateX(2px);
+        .mini-card:hover {
+            border-color: rgba(37, 99, 235, 0.3);
+            background: #252525;
+            transform: translateY(-2px);
         }
 
-        .quick-action-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: rgba(37, 99, 235, 0.12);
+        .mini-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            margin-bottom: 16px;
+        }
+
+        .mini-card-icon.blue {
+            background: rgba(37, 99, 235, 0.15);
             color: #2563eb;
         }
 
-        .quick-action:hover .quick-action-icon {
-            background: rgba(37, 99, 235, 0.18);
+        .mini-card-icon.green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
         }
 
-        .quick-action-text h4 {
-            font-size: 13px;
+        .mini-card-icon.purple {
+            background: rgba(124, 58, 237, 0.15);
+            color: #7c3aed;
+        }
+
+        .mini-card-value {
+            font-size: 28px;
             font-weight: 600;
-            margin-bottom: 2px;
-            color: rgba(255,255,255,0.9);
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 6px;
         }
 
-        .quick-action-text p {
-            font-size: 11px;
-            color: rgba(255,255,255,0.4);
+        .mini-card-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            font-weight: 500;
         }
 
         /* Usage Card */
@@ -653,10 +705,13 @@
 
         /* Responsive */
         @media (max-width: 1200px) {
-            .stats-grid {
+            .hero-metrics {
                 grid-template-columns: repeat(2, 1fr);
             }
-            .content-grid {
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+            .bottom-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -668,7 +723,7 @@
             .main-content {
                 margin-left: 0;
             }
-            .stats-grid {
+            .hero-metrics {
                 grid-template-columns: 1fr;
             }
         }
@@ -838,324 +893,214 @@
 
         <!-- Dashboard Content -->
         <div class="dashboard-content">
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-label">Total Test Runs</span>
-                        <div class="stat-icon" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                            </svg>
+            <!-- Hero Stats Section -->
+            <div class="hero-stats">
+                <div class="hero-stats-content">
+                    <div class="hero-title">Overview</div>
+                    <div class="hero-main-stat">
+                        <div class="hero-value">1,284</div>
+                        <div class="hero-label">Test Runs This Month</div>
+                    </div>
+                    <div class="hero-metrics">
+                        <div class="hero-metric">
+                            <div class="hero-metric-value">94.2%</div>
+                            <div class="hero-metric-label">Pass Rate</div>
+                            <div class="hero-metric-change positive">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                                </svg>
+                                +2.1%
+                            </div>
                         </div>
-                    </div>
-                    <div class="stat-value">1,284</div>
-                    <div class="stat-change positive">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-                        </svg>
-                        12% from last week
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-label">Pass Rate</span>
-                        <div class="stat-icon" style="background: rgba(34, 197, 94, 0.15); color: #10b981;">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
+                        <div class="hero-metric">
+                            <div class="hero-metric-value">342ms</div>
+                            <div class="hero-metric-label">Avg Latency</div>
+                            <div class="hero-metric-change negative">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                </svg>
+                                +18ms
+                            </div>
                         </div>
-                    </div>
-                    <div class="stat-value">94.2%</div>
-                    <div class="stat-change positive">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-                        </svg>
-                        2.1% improvement
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-label">Avg Latency</span>
-                        <div class="stat-icon" style="background: rgba(234, 179, 8, 0.15); color: #f59e0b;">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
+                        <div class="hero-metric">
+                            <div class="hero-metric-value">7</div>
+                            <div class="hero-metric-label">Active Agents</div>
+                            <div class="hero-metric-change positive">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                                </svg>
+                                +2 new
+                            </div>
                         </div>
-                    </div>
-                    <div class="stat-value">342ms</div>
-                    <div class="stat-change negative">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                        </svg>
-                        18ms slower
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-label">Active Agents</span>
-                        <div class="stat-icon" style="background: rgba(168, 85, 247, 0.15); color: #a855f7;">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
+                        <div class="hero-metric">
+                            <div class="hero-metric-value">12</div>
+                            <div class="hero-metric-label">Test Suites</div>
+                            <div class="hero-metric-change positive">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                                </svg>
+                                +1 new
+                            </div>
                         </div>
-                    </div>
-                    <div class="stat-value">7</div>
-                    <div class="stat-change positive">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-                        </svg>
-                        2 new this month
                     </div>
                 </div>
             </div>
 
-            <!-- Content Grid -->
-            <div class="content-grid">
-                <!-- Left Column -->
-                <div class="flex flex-col gap-6">
-                    <!-- Recent Test Runs -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Recent Test Runs</h2>
-                            <a href="/dashboard/runs" class="card-action">View all →</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="test-runs-table">
-                                <div class="test-run-row">
-                                    <div class="test-run-status passed"></div>
-                                    <div class="test-run-info">
-                                        <div class="test-run-name">Summarization Quality Suite</div>
-                                        <div class="test-run-meta">summarization_tests.py • 24 tests</div>
-                                    </div>
-                                    <div class="test-run-stats">
-                                        <span>24/24 passed</span>
-                                    </div>
-                                    <div class="test-run-time">2 min ago</div>
-                                </div>
-                                <div class="test-run-row">
-                                    <div class="test-run-status failed"></div>
-                                    <div class="test-run-info">
-                                        <div class="test-run-name">Chat Response Validation</div>
-                                        <div class="test-run-meta">chat_tests.py • 18 tests</div>
-                                    </div>
-                                    <div class="test-run-stats">
-                                        <span>16/18 passed</span>
-                                    </div>
-                                    <div class="test-run-time">15 min ago</div>
-                                </div>
-                                <div class="test-run-row">
-                                    <div class="test-run-status running"></div>
-                                    <div class="test-run-info">
-                                        <div class="test-run-name">RAG Pipeline Benchmark</div>
-                                        <div class="test-run-meta">rag_benchmark.py • 50 tests</div>
-                                    </div>
-                                    <div class="test-run-stats">
-                                        <span>Running...</span>
-                                    </div>
-                                    <div class="test-run-time">Now</div>
-                                </div>
-                                <div class="test-run-row">
-                                    <div class="test-run-status passed"></div>
-                                    <div class="test-run-info">
-                                        <div class="test-run-name">Code Generation Tests</div>
-                                        <div class="test-run-meta">codegen_tests.py • 12 tests</div>
-                                    </div>
-                                    <div class="test-run-stats">
-                                        <span>12/12 passed</span>
-                                    </div>
-                                    <div class="test-run-time">1 hour ago</div>
-                                </div>
-                                <div class="test-run-row">
-                                    <div class="test-run-status passed"></div>
-                                    <div class="test-run-info">
-                                        <div class="test-run-name">Translation Accuracy Suite</div>
-                                        <div class="test-run-meta">translation_tests.py • 36 tests</div>
-                                    </div>
-                                    <div class="test-run-stats">
-                                        <span>36/36 passed</span>
-                                    </div>
-                                    <div class="test-run-time">3 hours ago</div>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Activity Grid -->
+            <div class="activity-grid">
+                <!-- Activity Timeline -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Activity</h2>
+                        <a href="/dashboard/runs" class="card-action">View all →</a>
                     </div>
-
-                    <!-- Test Suites -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Test Suites</h2>
-                            <a href="/dashboard/tests" class="card-action">Manage →</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="suite-item">
-                                <div class="suite-icon">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    <div class="card-body">
+                        <div class="activity-timeline">
+                            <div class="activity-item">
+                                <div class="activity-icon-wrapper success">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                 </div>
-                                <div class="suite-info">
-                                    <div class="suite-name">Summarization Tests</div>
-                                    <div class="suite-tests">24 tests • Last run: 2 min ago</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Summarization Quality Suite passed</div>
+                                    <div class="activity-description">All 24 tests passed successfully</div>
+                                    <div class="activity-time">2 minutes ago</div>
                                 </div>
-                                <div class="suite-status active">Active</div>
                             </div>
-                            <div class="suite-item">
-                                <div class="suite-icon">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                            <div class="activity-item">
+                                <div class="activity-icon-wrapper error">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                     </svg>
                                 </div>
-                                <div class="suite-info">
-                                    <div class="suite-name">Chat Response Tests</div>
-                                    <div class="suite-tests">18 tests • Last run: 15 min ago</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Chat Response Validation failed</div>
+                                    <div class="activity-description">2 out of 18 tests failed</div>
+                                    <div class="activity-time">15 minutes ago</div>
                                 </div>
-                                <div class="suite-status active">Active</div>
                             </div>
-                            <div class="suite-item">
-                                <div class="suite-icon">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            <div class="activity-item">
+                                <div class="activity-icon-wrapper info">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                                     </svg>
                                 </div>
-                                <div class="suite-info">
-                                    <div class="suite-name">RAG Pipeline Benchmark</div>
-                                    <div class="suite-tests">50 tests • Running now</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">New agent connected</div>
+                                    <div class="activity-description">GPT-4 Turbo agent added to workspace</div>
+                                    <div class="activity-time">1 hour ago</div>
                                 </div>
-                                <div class="suite-status active">Active</div>
                             </div>
-                            <div class="suite-item">
-                                <div class="suite-icon">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            <div class="activity-item">
+                                <div class="activity-icon-wrapper success">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                 </div>
-                                <div class="suite-info">
-                                    <div class="suite-name">Code Generation Suite</div>
-                                    <div class="suite-tests">12 tests • Last run: 1 hour ago</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Code Generation Tests passed</div>
+                                    <div class="activity-description">12/12 tests passed</div>
+                                    <div class="activity-time">1 hour ago</div>
                                 </div>
-                                <div class="suite-status active">Active</div>
                             </div>
-                            <div class="suite-item">
-                                <div class="suite-icon">
-                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                            <div class="activity-item">
+                                <div class="activity-icon-wrapper warning">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                                     </svg>
                                 </div>
-                                <div class="suite-info">
-                                    <div class="suite-name">Multi-language Tests</div>
-                                    <div class="suite-tests">8 tests • Not configured</div>
+                                <div class="activity-content">
+                                    <div class="activity-title">API usage warning</div>
+                                    <div class="activity-description">You've used 80% of your monthly API calls</div>
+                                    <div class="activity-time">3 hours ago</div>
                                 </div>
-                                <div class="suite-status draft">Draft</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column -->
-                <div class="flex flex-col gap-6">
-                    <!-- Quick Actions -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Quick Actions</h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="quick-actions">
-                                <a href="/dashboard/tests/new" class="quick-action">
-                                    <div class="quick-action-icon">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                        </svg>
-                                    </div>
-                                    <div class="quick-action-text">
-                                        <h4>Create Test Suite</h4>
-                                        <p>Start a new test collection</p>
-                                    </div>
-                                </a>
-                                <a href="/dashboard/agents/new" class="quick-action">
-                                    <div class="quick-action-icon">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="quick-action-text">
-                                        <h4>Connect Agent</h4>
-                                        <p>Add an AI agent to test</p>
-                                    </div>
-                                </a>
-                                <a href="/dashboard/runs/new" class="quick-action">
-                                    <div class="quick-action-icon">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="quick-action-text">
-                                        <h4>Run All Tests</h4>
-                                        <p>Execute full test suite</p>
-                                    </div>
-                                </a>
-                                <a href="/docs" class="quick-action">
-                                    <div class="quick-action-icon">
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                        </svg>
-                                    </div>
-                                    <div class="quick-action-text">
-                                        <h4>View Documentation</h4>
-                                        <p>Learn FrameLab features</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                <!-- Usage Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Usage This Month</h2>
+                        <a href="/dashboard/billing" class="card-action">Upgrade →</a>
                     </div>
-
-                    <!-- Usage -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Usage This Month</h2>
-                            <a href="/dashboard/billing" class="card-action">Upgrade →</a>
+                    <div class="card-body">
+                        <div class="usage-item">
+                            <div class="usage-header">
+                                <span class="usage-label">Test Runs</span>
+                                <span class="usage-value">1,284 / 5,000</span>
+                            </div>
+                            <div class="usage-bar">
+                                <div class="usage-bar-fill" style="width: 25.7%;"></div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="usage-item">
-                                <div class="usage-header">
-                                    <span class="usage-label">Test Runs</span>
-                                    <span class="usage-value">1,284 / 5,000</span>
-                                </div>
-                                <div class="usage-bar">
-                                    <div class="usage-bar-fill" style="width: 25.7%;"></div>
-                                </div>
+                        <div class="usage-item">
+                            <div class="usage-header">
+                                <span class="usage-label">API Calls</span>
+                                <span class="usage-value">48,291 / 100,000</span>
                             </div>
-                            <div class="usage-item">
-                                <div class="usage-header">
-                                    <span class="usage-label">API Calls</span>
-                                    <span class="usage-value">48,291 / 100,000</span>
-                                </div>
-                                <div class="usage-bar">
-                                    <div class="usage-bar-fill" style="width: 48.3%;"></div>
-                                </div>
+                            <div class="usage-bar">
+                                <div class="usage-bar-fill" style="width: 48.3%;"></div>
                             </div>
-                            <div class="usage-item">
-                                <div class="usage-header">
-                                    <span class="usage-label">Storage</span>
-                                    <span class="usage-value">2.4 GB / 10 GB</span>
-                                </div>
-                                <div class="usage-bar">
-                                    <div class="usage-bar-fill" style="width: 24%;"></div>
-                                </div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="usage-header">
+                                <span class="usage-label">Storage</span>
+                                <span class="usage-value">2.4 GB / 10 GB</span>
                             </div>
-                            <div class="usage-item">
-                                <div class="usage-header">
-                                    <span class="usage-label">Team Members</span>
-                                    <span class="usage-value">4 / 5</span>
-                                </div>
-                                <div class="usage-bar">
-                                    <div class="usage-bar-fill warning" style="width: 80%;"></div>
-                                </div>
+                            <div class="usage-bar">
+                                <div class="usage-bar-fill" style="width: 24%;"></div>
+                            </div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="usage-header">
+                                <span class="usage-label">Team Members</span>
+                                <span class="usage-value">4 / 5</span>
+                            </div>
+                            <div class="usage-bar">
+                                <div class="usage-bar-fill warning" style="width: 80%;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Bottom Grid -->
+            <div class="bottom-grid">
+                <!-- Test Suites Mini Card -->
+                <a href="/dashboard/tests" class="mini-card">
+                    <div class="mini-card-icon blue">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <div class="mini-card-value">12</div>
+                    <div class="mini-card-label">Test Suites</div>
+                </a>
+
+                <!-- Agents Mini Card -->
+                <a href="/dashboard/agents" class="mini-card">
+                    <div class="mini-card-icon green">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <div class="mini-card-value">7</div>
+                    <div class="mini-card-label">Active Agents</div>
+                </a>
+
+                <!-- Benchmarks Mini Card -->
+                <a href="/dashboard/benchmarks" class="mini-card">
+                    <div class="mini-card-icon purple">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <div class="mini-card-value">342ms</div>
+                    <div class="mini-card-label">Avg Latency</div>
+                </a>
             </div>
         </div>
     </main>
